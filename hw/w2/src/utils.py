@@ -1,5 +1,6 @@
+import sys
 import re
-import math
+from pathlib import Path
 
 def coerce(s):
     if s.isdigit():
@@ -18,8 +19,15 @@ def coerce(s):
 def settings(s):
     t = {}
     pat = r"[-][-]([\S]+)[^\n]+= ([\S]+)"
-    for k, s1 in re.findall(pat, s):
-        t[k] = coerce(s1)
-    return t
+    return dict(re.findall(pat, s))
 
+
+def cli(options):
+    args = sys.argv[1:]
+    for k, v in options.items():
+        for n, x in enumerate(args):
+            if x == '-' + k[0] or x == '--' + k:
+                v = 'true' if v == 'false' else 'false' if v == 'true' else args[n + 1]
+        options[k] = coerce(v)
+    return options
 
