@@ -1,3 +1,6 @@
+from num import *
+from sym import *
+
 class COLS:
     def __init__(self, row):
         self.x, self.y, self.all = {}, {}, []

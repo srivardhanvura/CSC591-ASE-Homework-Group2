@@ -38,3 +38,19 @@ def eg(key, str, fun):
     global help
     help = help + '  -g '+ key + '\t' + str + '\n'
     
+
+def csv(src):
+    i = 0
+    src = sys.stdin if src == "-" else open(src, 'r', encoding='utf-8')
+
+    def read_csv_line():
+        nonlocal i
+        line = src.readline()
+        if line:
+            i += 1
+            return i, [coerce(cell) for cell in line.strip().split(',')]
+        else:
+            src.close()
+            return None
+
+    return read_csv_line
