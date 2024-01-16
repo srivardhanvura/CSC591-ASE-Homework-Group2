@@ -11,3 +11,5 @@ help = '''USAGE: python main.py [OPTIONS]
    -t --todo start up action = help
    '''
 egs = {}
+
+Seed = 31210

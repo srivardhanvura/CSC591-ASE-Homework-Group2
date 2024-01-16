@@ -1,3 +1,3 @@
 class ROW:
-    def __init__(self, t):
-        self.cells = t
+    def __init__(self, cells):
+        self.cells = cells

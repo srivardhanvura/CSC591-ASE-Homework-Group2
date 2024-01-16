@@ -1,5 +1,5 @@
 class COLS:
-    def _init_(self, row):
+    def __init__(self, row):
         self.x, self.y, self.all = {}, {}, []
         self.klass = None
         for at, txt in row.cells.items():

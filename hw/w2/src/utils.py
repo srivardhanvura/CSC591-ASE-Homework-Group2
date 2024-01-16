@@ -1,6 +1,7 @@
 import sys
 import re
 from pathlib import Path
+from config import *
 
 def coerce(s):
     if s.isdigit():
@@ -31,3 +32,9 @@ def cli(options):
         options[k] = coerce(v)
     return options
 
+
+def eg(key, str, fun):
+    egs[key] = fun
+    global help
+    help = help + '  -g '+ key + '\t' + str + '\n'
+    

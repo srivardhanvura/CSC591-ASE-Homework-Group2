@@ -1,4 +1,7 @@
-class Data:
+from cols import COLS
+from rows import ROW
+
+class DATA:
     def _init_(self, src, fun=None):
         self.rows = []
         self.cols = None
@@ -10,25 +13,25 @@ class Data:
                 self.add(x, fun)
 
     def add(self, t, fun):
-        row = t.cells if isinstance(t, Row) else Row(t)
+        row = t.cells if isinstance(t, ROW) else ROW(t)
         if self.cols:
             if fun:
                 fun(self, row)
             self.rows.append(self.cols.add(row))
         else:
-            self.cols = Cols(row)
+            self.cols = COLS(row)
 
     def mid(self, cols=None, u=None):
         u = {}
         for col in cols or self.cols.all:
             u[col.at] = col.mid()
-        return Row(u)
+        return ROW(u)
 
     def div(self, cols=None, u=None):
         u = {}
         for col in cols or self.cols.all:
             u[col.at] = col.div()
-        return Row(u)
+        return ROW(u)
 
     def stats(self, cols, fun, ndivs, u=None):
         u = {".N": len(self.rows)}
