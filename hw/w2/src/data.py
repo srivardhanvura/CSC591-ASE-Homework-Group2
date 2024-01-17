@@ -8,7 +8,6 @@ class DATA:
         self.cols = None
         if isinstance(src, str):
             csv(src, self.add)
-            print(self.cols)
         else:
             for x in src or []:
                 self.add(x, fun)
@@ -39,5 +38,4 @@ class DATA:
         for col in (self.cols.y if cols is None else [self.cols.names[c] for c in cols]):
             cur_col = self.cols.all[col]
             u[cur_col.txt] = round(getattr(cur_col, fun or "mid")(), nDivs) if nDivs else getattr(cur_col, fun or "mid")()
-            print(u[cur_col.txt])
         return u

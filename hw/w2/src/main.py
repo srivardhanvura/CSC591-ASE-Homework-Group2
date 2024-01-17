@@ -32,7 +32,6 @@ def main():
     
 
 if __name__ == '__main__':
-    main()
     data = DATA('hw/w2/data/auto93.csv')
     print(data.stats(nDivs=2))
     

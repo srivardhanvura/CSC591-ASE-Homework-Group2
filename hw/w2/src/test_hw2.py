@@ -1,6 +1,7 @@
 from rows import *
 from cols import *
 from utils import *
+from num import NUM
 
 def test_cols_add():
     # Create a simple ROW for testing
@@ -46,3 +47,14 @@ def test_settings():
 
         result = settings(sample_settings)
         return result ==  expected_result
+    
+def test_num_mid():
+    num = NUM()
+    vals = [1, 2, 3, 4]
+    for val in vals:
+        num.add(val)
+    expected_mean = 0
+    for val in vals:
+        expected_mean += val
+    expected_mean /= len(vals)
+    return num.mid() == expected_mean
