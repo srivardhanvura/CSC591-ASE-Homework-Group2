@@ -1,40 +1,43 @@
 from cols import COLS
 from rows import ROW
+from utils import *
 
 class DATA:
-    def _init_(self, src, fun=None):
+    def __init__(self, src, fun=None):
         self.rows = []
         self.cols = None
         if isinstance(src, str):
-            for x in csv(src):
-                self.add(x, fun)
+            csv(src, self.add)
+            print(self.cols)
         else:
             for x in src or []:
                 self.add(x, fun)
 
-    def add(self, t, fun):
-        row = t.cells if isinstance(t, ROW) else ROW(t)
+    def add(self, t, fun=None):
+        row = t if 'cells' in t else ROW(t)
         if self.cols:
             if fun:
-                fun(self, row)
+                fun(row)
             self.rows.append(self.cols.add(row))
         else:
-            self.cols = COLS(row)
+            self.cols=COLS(row)
 
-    def mid(self, cols=None, u=None):
+    def mid(self, cols=None):
         u = {}
         for col in cols or self.cols.all:
             u[col.at] = col.mid()
         return ROW(u)
 
-    def div(self, cols=None, u=None):
+    def div(self, cols=None):
         u = {}
         for col in cols or self.cols.all:
             u[col.at] = col.div()
         return ROW(u)
 
-    def stats(self, cols, fun, ndivs, u=None):
+    def stats(self, cols=None, fun=None, nDivs=None):
         u = {".N": len(self.rows)}
-        for col in self.cols[cols or "y"]:
-            u[col.txt] = round(getattr(type(col), fun or "mid")(col), ndivs)
+        for col in (self.cols.y if cols is None else [self.cols.names[c] for c in cols]):
+            cur_col = self.cols.all[col]
+            u[cur_col.txt] = round(getattr(cur_col, fun or "mid")(), nDivs) if nDivs else getattr(cur_col, fun or "mid")()
+            print(u[cur_col.txt])
         return u

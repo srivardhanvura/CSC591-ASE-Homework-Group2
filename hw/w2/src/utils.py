@@ -39,18 +39,15 @@ def eg(key, str, fun):
     help = help + '  -g '+ key + '\t' + str + '\n'
     
 
-def csv(src):
-    i = 0
-    src = sys.stdin if src == "-" else open(src, 'r', encoding='utf-8')
-
-    def read_csv_line():
-        nonlocal i
-        line = src.readline()
-        if line:
-            i += 1
-            return i, [coerce(cell) for cell in line.strip().split(',')]
-        else:
-            src.close()
-            return None
-
-    return read_csv_line
+def csv(sFilename, fun):
+    sFilename = Path(sFilename)
+    if sFilename.exists() and sFilename.suffix == '.csv':
+        t = []
+        with open(sFilename.absolute(), 'r', encoding='utf-8') as file:
+            for _, line in enumerate(file):
+                row = list(map(coerce, line.strip().split(',')))
+                t.append(row)
+                fun(row)
+    else:
+        print("File path does not exist OR File not csv, given path: ", sFilename.absolute())
+        return

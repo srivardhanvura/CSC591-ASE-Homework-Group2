@@ -1,6 +1,7 @@
 from utils import *
 from config import *
 from test_hw2 import *
+from data import DATA
 
 def main():
     saved_options = {}
@@ -31,6 +32,7 @@ def main():
     
 
 if __name__ == '__main__':
-    eg('settings', 'stats from DATA', test_settings)
     main()
+    data = DATA('hw/w2/data/auto93.csv')
+    print(data.stats(nDivs=2))
     

@@ -2,16 +2,16 @@ import math
 
 class NUM:
     def __init__(self, s=None, n=None):
-        self.txt = s or " "
+        self.txt = s or ""
         self.at = n or 0
         self.n = 0
         self.mu = 0
         self.m2 = 0
         self.hi = -1E30
         self.lo = 1E30
-        self.heaven = 0 if (s or "").endswith("−") else 1
+        self.heaven = 0 if (s or "").endswith("-") else 1
 
-    def add(self, x, d):
+    def add(self, x, d=None):
         if x != "?":
             self.n += 1
             d = x - self.mu

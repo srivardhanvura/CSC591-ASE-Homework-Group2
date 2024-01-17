@@ -1,7 +1,7 @@
 import math
 class SYM:
-    def _init_(self, s=None, n=None):
-        self.txt = s or " "
+    def __init__(self, s=None, n=None):
+        self.txt = s or ""
         self.at = n or 0
         self.n = 0
         self.has = {}

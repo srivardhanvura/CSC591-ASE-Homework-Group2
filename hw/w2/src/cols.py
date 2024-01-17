@@ -5,7 +5,7 @@ class COLS:
     def __init__(self, row):
         self.x, self.y, self.all = {}, {}, []
         self.klass = None
-        for at, txt in row.cells.items():
+        for at, txt in enumerate(row.cells):
             col = NUM(txt, at) if txt[0].isupper() else SYM(txt, at) # Determine column type
             self.all.append(col) # Add to all columns
             if not txt.endswith("X"):
