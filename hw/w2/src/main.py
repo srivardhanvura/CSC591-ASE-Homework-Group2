@@ -32,6 +32,7 @@ def main():
     
 
 if __name__ == '__main__':
-    data = DATA('data/auto93.csv')
-    print(data.stats(nDivs=2))
+    data = DATA('hw/w2/data/auto93.csv')
+    if data.rows:
+        print(data.stats(nDivs=2))
     
