@@ -44,7 +44,7 @@ def csv(sFilename, fun):
     if sFilename.exists() and sFilename.suffix == '.csv':
         t = []
         with open(sFilename.absolute(), 'r', encoding='utf-8') as file:
-            for _, line in enumerate(file):
+            for line in file:
                 row = list(map(coerce, line.strip().split(',')))
                 t.append(row)
                 fun(row)
