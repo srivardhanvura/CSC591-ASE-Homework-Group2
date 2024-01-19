@@ -32,7 +32,18 @@ def main():
     
 
 if __name__ == '__main__':
-    data = DATA('hw/w2/data/auto93.csv')
+    data = DATA('../data/auto93.csv')
     if data.rows:
         print(data.stats(nDivs=2))
+    eg('cols_add', 'show colsadd', test_cols_add)
+    eg('settings', 'show settings', test_settings)
+    eg('num_mid', 'show num mid', test_num_mid)
+    eg('num_lo', 'show num lo', test_num_lo)
+    eg('sym_mid', 'show sym mid', test_sym_mid)
+    eg('coerce', 'show coerce', test_coerce)
+    eg('col', 'show col', test_col)
+    eg('div_with_empty_values', 'show div with empty values', test_div_with_empty_values)
+    eg('div_with_multiple_values', 'show div with multiple values', test_div_with_multiple_values)
+    main()
+    
     

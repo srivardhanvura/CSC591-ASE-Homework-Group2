@@ -18,7 +18,7 @@ class SYM:
     def mid(self):
         return self.mode
 
-    def div(self, e):
+    def div(self):
         e = 0
         for v in self.has.values():
             e -= v / self.n * math.log(v / self.n, 2)

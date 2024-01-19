@@ -5,23 +5,15 @@ from num import NUM
 from statistics import mode
 
 def test_cols_add():
-    # Create a simple ROW for testing
     row_data = {'A': 10, 'b': 5, 'c': 6, 'D': 1, 'E!': 5}
     row = ROW(cells=list(row_data.keys()))
-
-    # Create a COLS object
     cols = COLS(row)
-    
     row_vals = ROW(list(row_data.values()))
-    
     cols.add(row_vals)
-    
     row_data = {'A': 20, 'b': 3, 'c': 2, 'D': 11, 'E!': 2}
     row_vals = ROW(list(row_data.values()))
-    
     cols.add(row_vals)
 
-    # Check if columns were updated correctly and return True/False
     assert (
         cols.x[0].n == 2 and
         cols.y[4].mu == 3.5 and
@@ -29,7 +21,6 @@ def test_cols_add():
     )
 
 def test_settings():
-        # Test case with a sample settings string
         sample_settings = '''
         -c --cohen small effect size = .35
         -f --file csv data file name = ../data/diabetes.csv
@@ -39,8 +30,6 @@ def test_settings():
         -s --seed random number seed = 31210
         -t --todo start up action = help
         '''
-
-        # Expected result based on the provided sample settings
         expected_result = {'cohen': '.35', 
                            'file': '../data/diabetes.csv', 
                            'help': 'false', 
@@ -99,3 +88,17 @@ def test_col():
     y_vals = [val.txt for val in col.y.values()]
     assert actual_x == x_vals
     assert actual_y == y_vals
+
+def test_div_with_empty_values():
+        sym_instance = SYM()
+        result = sym_instance.div()
+        assert result == 0  # Entropy of an empty set should be 0.
+
+def test_div_with_multiple_values():
+        sym_instance = SYM()
+        sym_instance.add('value1')
+        sym_instance.add('value2')
+        sym_instance.add('value3')
+        result = sym_instance.div()
+        # Entropy for a set with different values should be greater than 0.
+        assert result > 0
