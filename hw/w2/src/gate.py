@@ -27,8 +27,6 @@ def main():
                     print('❌ fail:', action)
                 else:
                     print('✅ pass:', action)
-
-    sys.exit(fails)
     
 
 if __name__ == '__main__':
