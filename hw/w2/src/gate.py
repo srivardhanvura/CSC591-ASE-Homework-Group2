@@ -2,6 +2,7 @@ from utils import *
 from config import *
 from test_hw2 import *
 from data import DATA
+import os
 
 def main():
     saved_options = {}
@@ -30,7 +31,10 @@ def main():
     
 
 if __name__ == '__main__':
-    data = DATA('../data/auto93.csv')
+    path = 'data/auto93.csv'
+    if 'hw\w2' not in os.getcwd():
+        path = 'hw/w2/data/auto93.csv'
+    data = DATA(path)
     if data.rows:
         print(data.stats(nDivs=2))
     eg('cols_add', 'show colsadd', test_cols_add)
