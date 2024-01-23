@@ -45,10 +45,35 @@ def bayes():
     data = DATA("hw/w3/data/diabetes.csv")
     for row in data.rows:
         learn(data, row, wme)
+    data = DATA("hw/w3/data/diabetes.csv")
+    for row in data.rows:
+        learn(data, row, wme)
     print(wme['acc'] / wme['tries'])
     return wme['acc'] / wme['tries'] > 0.72
 
+def print_class_percentages(data):
+    class_counts = {}
+    total_rows = len(data.rows)
+
+    for row in data.rows:
+        class_label = row.cells[data.cols.all[-1].at]
+        class_counts[class_label] = class_counts.get(class_label, 0) + 1
+
+    print("     Class         \t    Percentage   ")
+    print("------------------ \t ----------------")
+    for class_label, count in class_counts.items():
+        percentage = (count / total_rows) * 100
+        print(f"{class_label.ljust(25)} \t {percentage:.2f}%")
+
+
 if __name__ == '__main__':
+    data = DATA('hw/w3/data/diabetes.csv')
+    print("Dataset: Diabetes")
+    print_class_percentages(data)
+    data = DATA('hw/w3/data/soybean.csv')
+    print("+------------------+------------------+")
+    print("Dataset: Soybean")
+    print_class_percentages(data)
     eg('cols_add', 'show colsadd', test_cols_add)
     eg('settings', 'show settings', test_settings)
     eg('num_mid', 'show num mid', test_num_mid)

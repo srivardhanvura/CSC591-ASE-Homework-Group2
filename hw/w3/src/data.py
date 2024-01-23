@@ -40,3 +40,4 @@ class DATA:
             cur_col = self.cols.all[col]
             u[cur_col.txt] = round(getattr(cur_col, fun or "mid")(), nDivs) if nDivs else getattr(cur_col, fun or "mid")()
         return u
+
