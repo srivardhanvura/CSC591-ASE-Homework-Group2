@@ -1,0 +1,48 @@
++------------------+------------------+
+TASK 1
+Dataset: Diabetes
+     Class                  Percentage   
+------------------       ----------------
+positive                         34.90%
+negative                         65.10%
++------------------+------------------+
+Dataset: Soybean
+     Class                  Percentage   
+------------------       ----------------
+diaporthe-stem-canker            2.93%
+charcoal-rot                     2.93%
+rhizoctonia-root-rot             2.93%
+phytophthora-rot                 12.88%
+brown-stem-rot                   6.44%
+powdery-mildew                   2.93%
+downy-mildew                     2.93%
+brown-spot                       13.47%
+bacterial-blight                 2.93%
+bacterial-pustule                2.93%
+purple-seed-stain                2.93%
+anthracnose                      6.44%
+phyllosticta-leaf-spot           2.93%
+alternarialeaf-spot              13.32%
+frog-eye-leaf-spot               13.32%
+diaporthe-pod-&-stem-blight      2.20%
+cyst-nematode                    2.05%
+2-4-d-injury                     2.34%
+herbicide-injury                 1.17%
++------------------+------------------+
+TASK 3
+Diabetes data accuracy:- 0.7335092348284961
+Accuracy is greater than 0.72
++------------------+------------------+
+TASK 4
+Soybean's data accuracy when k:0 and m:1 :- 0.8454680534918276
+Soybean's data accuracy when k:0 and m:2 :- 0.8098068350668648
+Soybean's data accuracy when k:0 and m:3 :- 0.7830609212481426
+Soybean's data accuracy when k:1 and m:1 :- 0.8454680534918276
+Soybean's data accuracy when k:1 and m:2 :- 0.8142644873699851
+Soybean's data accuracy when k:1 and m:3 :- 0.7845468053491828
+Soybean's data accuracy when k:2 and m:1 :- 0.849925705794948
+Soybean's data accuracy when k:2 and m:2 :- 0.8157503714710252
+Soybean's data accuracy when k:2 and m:3 :- 0.7890044576523031
+Soybean's data accuracy when k:3 and m:1 :- 0.849925705794948
+Soybean's data accuracy when k:3 and m:2 :- 0.8187221396731055
+Soybean's data accuracy when k:3 and m:3 :- 0.7919762258543833

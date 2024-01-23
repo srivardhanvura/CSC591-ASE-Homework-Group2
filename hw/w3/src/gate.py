@@ -40,16 +40,12 @@ def learn(data, row, my):
     my["datas"][kl] = my["datas"].get(kl, DATA(data.cols.names))
     my["datas"][kl].add(row)
 
-def bayes():
+def bayes(path):
     wme = {'acc': 0, 'datas': {}, 'tries': 0, 'n': 0}
-    data = DATA("hw/w3/data/diabetes.csv")
+    data = DATA(path)
     for row in data.rows:
         learn(data, row, wme)
-    data = DATA("hw/w3/data/diabetes.csv")
-    for row in data.rows:
-        learn(data, row, wme)
-    print(f"Diabetes data accuracy: {wme['acc'] / wme['tries']}")
-    return wme['acc'] / wme['tries'] > 0.72
+    return wme['acc'] / wme['tries']
 
 def print_class_percentages(data):
     class_counts = {}
@@ -68,6 +64,7 @@ def print_class_percentages(data):
 
 if __name__ == '__main__':
     data = DATA('hw/w3/data/diabetes.csv')
+    print("+------------------+------------------+")
     print("TASK 1")
     print("Dataset: Diabetes")
     print_class_percentages(data)
@@ -85,13 +82,22 @@ if __name__ == '__main__':
     eg('div_with_empty_values', 'show div with empty values', test_div_with_empty_values)
     eg('div_with_multiple_values', 'show div with multiple values', test_div_with_multiple_values)
     main()
+    print("+------------------+------------------+")
     print("TASK 3")
-    path = 'data/soybean.csv'
-    if 'hw\w3' not in os.getcwd():
-        path = 'hw/w3/data/soybean.csv'
-    data = DATA(path)
-    if bayes():
+    path = "hw/w3/data/diabetes.csv"
+    accuracy = bayes(path)
+    print(f"Diabetes data accuracy:- {accuracy}")
+    if bayes(path)  > 0.72:
         print("Accuracy is greater than 0.72")
     else:
         print("Accuracy is less than 0.72")
+    print("+------------------+------------------+")
+    print("TASK 4")
+    path = 'hw/w3/data/soybean.csv'
+    for k in range(4):
+        for m in range(1,4):
+            the['k'] = k
+            the['m'] = m
+            accuracy = bayes(path)
+            print(f"Soybean's data accuracy when k:{k} and m:{m} :- {accuracy}")
     

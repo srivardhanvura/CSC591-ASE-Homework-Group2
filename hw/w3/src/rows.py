@@ -14,7 +14,8 @@ class ROW:
             cur_col = data.cols.all[col]
             if v != "?":
                 inc = cur_col.like(v, prior)
-                out += math.log(inc)
+                if inc > 0:
+                   out += math.log(inc)
         
         return math.exp(1) ** out
 
