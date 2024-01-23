@@ -9,11 +9,12 @@ class DATA:
         if isinstance(src, str):
             csv(src, self.add)
         else:
-            for x in src or []:
-                self.add(x, fun)
+            # for x in src or []:
+            self.add(src, fun)
+                
 
     def add(self, t, fun=None):
-        row = t if 'cells' in t else ROW(t)
+        row = t if isinstance(t, ROW) and t.cells else ROW(t)
         if self.cols:
             if fun:
                 fun(row)
