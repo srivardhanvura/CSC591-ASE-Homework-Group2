@@ -29,29 +29,49 @@ def main():
                 else:
                     print('✅ pass:', action)
     
-def learn(data, row, my, kl):
-    my.n += 1
+def learn(data, row, my):
+    my['n'] += 1
     kl = row.cells[data.cols.klass.at]
 
-    if my.n > 10:
-        my.tries += 1
-        my.acc += 1 if kl == row.likes(my.datas) else 0
-
-    my.datas[kl] = my.datas.get(kl, DATA.new(data.cols.names))
-    my.datas[kl].add(row)
+    if my['n'] > 10:
+        my['tries'] += 1
+        my['acc'] += 1 if kl == row.likes(my['datas']) else 0
+    
+    my['datas'][kl] = my['datas'].get(kl, DATA(ROW(data.cols.names)))
+    my['datas'][kl].add(row)
 
 def bayes():
     wme = {'acc': 0, 'datas': {}, 'tries': 0, 'n': 0}
-    DATA("hw/w3/data/diabetes.csv", lambda data, t: learn(data, t, wme))
+    data = DATA("hw/w3/data/diabetes.csv")
+    for row in data.rows:
+        learn(data, row, wme)
     print(wme['acc'] / wme['tries'])
     return wme['acc'] / wme['tries'] > 0.72
 
+def print_class_percentages(data):
+    class_counts = {}
+    total_rows = len(data.rows)
+
+    for row in data.rows:
+        class_label = row.cells[data.cols.all[-1].at]
+        class_counts[class_label] = class_counts.get(class_label, 0) + 1
+
+    print("     Class         \t    Percentage   ")
+    print("------------------ \t ----------------")
+    for class_label, count in class_counts.items():
+        percentage = (count / total_rows) * 100
+        print(f"{class_label.ljust(25)} \t {percentage:.2f}%")
+
+
 if __name__ == '__main__':
-    path = 'data/soybean.csv'
-    if 'hw\w3' not in os.getcwd():
-        path = 'hw/w3/data/soybean.csv'
-    data = DATA(path)
-    bayes()
+    data = DATA('hw/w3/data/diabetes.csv')
+    print("Dataset: Diabetes")
+    print_class_percentages(data)
+    data = DATA('hw/w3/data/soybean.csv')
+    print("+------------------+------------------+")
+    print("Dataset: Soybean")
+    print_class_percentages(data)
+    #print(bayes())
     eg('cols_add', 'show colsadd', test_cols_add)
     eg('settings', 'show settings', test_settings)
     eg('num_mid', 'show num mid', test_num_mid)
