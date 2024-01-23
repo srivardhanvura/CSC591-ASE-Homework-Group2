@@ -48,7 +48,7 @@ def bayes():
     data = DATA("hw/w3/data/diabetes.csv")
     for row in data.rows:
         learn(data, row, wme)
-    print(wme['acc'] / wme['tries'])
+    print(f"Diabetes data accuracy: {wme['acc'] / wme['tries']}")
     return wme['acc'] / wme['tries'] > 0.72
 
 def print_class_percentages(data):
@@ -68,6 +68,7 @@ def print_class_percentages(data):
 
 if __name__ == '__main__':
     data = DATA('hw/w3/data/diabetes.csv')
+    print("TASK 1")
     print("Dataset: Diabetes")
     print_class_percentages(data)
     data = DATA('hw/w3/data/soybean.csv')
@@ -84,9 +85,13 @@ if __name__ == '__main__':
     eg('div_with_empty_values', 'show div with empty values', test_div_with_empty_values)
     eg('div_with_multiple_values', 'show div with multiple values', test_div_with_multiple_values)
     main()
+    print("TASK 3")
     path = 'data/soybean.csv'
     if 'hw\w3' not in os.getcwd():
         path = 'hw/w3/data/soybean.csv'
     data = DATA(path)
-    bayes()
+    if bayes():
+        print("Accuracy is greater than 0.72")
+    else:
+        print("Accuracy is less than 0.72")
     
