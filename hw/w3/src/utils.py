@@ -2,7 +2,6 @@ import sys
 import re
 from pathlib import Path
 from config import *
-from data import DATA
 
 def coerce(s):
     if s.isdigit():
@@ -53,13 +52,4 @@ def csv(sFilename, fun):
         print("File path does not exist OR File not csv, given path: ", sFilename.absolute())
         return
     
-def learn(data, row, my, kl):
-    my.n += 1
-    kl = row.cells[data.cols.klass.at]
 
-    if my.n > 10:
-        my.tries += 1
-        my.acc += 1 if kl == row.likes(my.datas) else 0
-
-    my.datas[kl] = my.datas.get(kl, DATA.new(data.cols.names))
-    my.datas[kl].add(row)
