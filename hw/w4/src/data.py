@@ -49,8 +49,8 @@ class DATA:
     def gate(self, budget0, budget, some):
         heaven = 1.0
         rows = self.shuffle(self.rows)
-        print("1. top6", self.mid(rows[:6]).cells['y'].val)
-        print("2. top50", self.mid(rows[:50]).cells['y'].val)
+        print("1. top6", [row.cells[-1] for row in rows[:6]])
+        print("2. top50", [row.cells[-1] for row in rows[:50]])
 
         rows.sort(key=lambda row: self.distance2heaven(row, heaven))
         print("3. most", self.mid([rows[0]]).cells['y'].val)

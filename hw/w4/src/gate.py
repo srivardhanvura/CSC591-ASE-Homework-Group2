@@ -62,7 +62,7 @@ def print_class_percentages(data):
 
 
 if __name__ == '__main__':
-    data = DATA('hw/w3/data/diabetes.csv')
+    data = DATA('hw/w4/data/diabetes.csv')
     data.gate(4, 10, 0.5)
 
     
