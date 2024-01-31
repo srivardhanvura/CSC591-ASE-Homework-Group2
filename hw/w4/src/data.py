@@ -49,46 +49,53 @@ class DATA:
     def gate(self, budget0, budget, some):
         heaven = 1.0
         rows = self.shuffle(self.rows)
-        print("1. top6", [row.cells[-1] for row in rows[:6]])
-        print("2. top50", [row.cells[-1] for row in rows[:50]])
+        print("1. top6", [[row.cells[x] for x in self.cols.y.keys()] for row in rows[:6]])
+        print("2. top50", [[row.cells[x] for x in self.cols.y.keys()] for row in rows[:50]])
 
         rows.sort(key=lambda row: self.distance2heaven(row, heaven))
-        print("3. most", self.mid([rows[0]]).cells['y'].val)
+        print("3. most", [rows[0].cells[x] for x in list(self.cols.y.keys())])
 
-        for i in range(20):
-            rows = self.shuffle(rows)
-            LITE = rows[:budget0]
-            DARK = rows[budget0:]
+        rows = self.shuffle(self.rows)
+        lite = rows[:budget0]
+        dark = rows[budget0:]
+
+        for _ in range(budget):
+            lite.sort(key=lambda row: self.distance2heaven(row, heaven))
+            n = int(len(lite)**some)
+            best, rest = lite[:n], lite[n:]
+            todo, selected = self.split(best, rest, lite, dark)
             
-            for j in range(budget):
-                LITE.sort(key=lambda row: self.distance2heaven(row, heaven))
-                n = int(len(LITE) ** some)
-                BEST, REST = LITE[:n], LITE[n:]
-                todo, selected = self.split(BEST, REST, LITE, DARK)
+            dark_sample = random.sample(dark, budget0+1)
+            print("4: rand", [dark_sample[len(dark_sample)//2].cells[x] for x in self.cols.y.keys()])
+            if len(selected.rows) > 0:
+                print("5: mid", [selected.rows[len(selected.rows)//2].cells[x] for x in self.cols.y.keys()])
+            print("6: top", [best[0].cells[x] for x in self.cols.y.keys()])
+            
+            lite.append(dark.pop(todo))
 
-                rand_centroid = self.mid([random.choice(DARK) for _ in range(budget0 + i)])
-                mid_centroid = self.mid([selected])
-                top_row_y = REST[0].cells['y'].val
-
-                print(f"{i + 1}: rand {j + 1}", rand_centroid.cells['y'].val)
-                print(f"{i + 1}: mid {j + 1}", mid_centroid.cells['y'].val)
-                print(f"{i + 1}: top {j + 1}", top_row_y)
-
-                LITE.append(DARK.pop(todo))
 
     def distance2heaven(self, row, heaven):
         norm = lambda c, x: (x - c.lo) / (c.hi - c.lo)
-        return math.sqrt(sum((heaven - norm(y, row.cells[y.at]))**2 for y in self.cols.y) / len(self.cols.y))
+        return math.sqrt(sum((heaven - norm(col, row.cells[y]))**2 for y, col in self.cols.y.items()) / len(self.cols.y))
 
     def split(self, best, rest, lite, dark):
-        selected = []
+        selected = DATA(self.cols.names)
         max_score = float('-inf')
+        
+        best_data = DATA(self.cols.names)
+        for row in best:
+            best_data.add(row)
+        
+        rest_data = DATA(self.cols.names)
+        for row in rest:
+            rest_data.add(row)
+        
         for i, row in enumerate(dark):
-            b = self.likelihood(row, best, lite)
-            r = self.likelihood(row, rest, lite)
+            b = row.like(best_data, len(lite), 2)
+            r = row.like(rest_data, len(lite), 2)
             if b > r:
-                selected.append(row)
-            score = (b + r) / abs(b - r)
+                selected.add(row)
+            score = abs(b + r) / abs(b - r)
             if score > max_score:
                 max_score, todo = score, i
-        return todo, DATA(selected)
+        return todo, selected
