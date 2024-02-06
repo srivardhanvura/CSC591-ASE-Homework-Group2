@@ -68,6 +68,6 @@ if __name__ == '__main__':
     rows = r1.neighbors(data)
     for i, row in enumerate(rows):
         if i%30 ==0:
-            print(o(row.cells), rnd(row.dist(r1, data)))
+            print(i+1, o(row.cells), rnd(row.dist(r1, data)))
 
     

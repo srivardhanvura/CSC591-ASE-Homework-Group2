@@ -36,7 +36,8 @@ class ROW:
         return out
     
     def dist(self, other, data):
-        p = the.p
+        d, n = 0, 0
+        p = the["p"]
         for _, col in data.cols.x.items():
             n += 1
             d += (col.dist(self.cells[col.at], other.cells[col.at])) ** p
