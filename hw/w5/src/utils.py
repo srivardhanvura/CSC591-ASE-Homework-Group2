@@ -3,6 +3,7 @@ import re
 from pathlib import Path
 from config import *
 import math
+import random
 
 def coerce(s):
     if s.isdigit():
@@ -53,7 +54,8 @@ def csv(sFilename, fun):
         print("File path does not exist OR File not csv, given path: ", sFilename.absolute())
         return
 
-def keysort(t, fun, u=[], v=[]):
+def keysort(t, fun):
+    u, v = [], []
     for x in t:
         u.append({'x': x, 'y': fun(x)})
     u.sort(key=lambda a: a['y'])
@@ -83,3 +85,6 @@ def rnd(n, ndecs=None):
         return n
     mult = 10**(ndecs or 2)
     return math.floor(n * mult + 0.5) / mult
+
+def any(t):
+    return t[random.randint(0, len(t) - 1)]
