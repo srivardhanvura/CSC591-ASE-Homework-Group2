@@ -103,7 +103,7 @@ class DATA:
     def farapart(self, data, a=None, sortp=False):
         rows = data.rows or self.rows
         far = int(len(rows) * the.get("Far", 0.95))
-        # evals = 1 if a else 2
+        evals = 1 if a else 2
         a = a or any(rows).neighbors(self, rows)[far]
         b = a.neighbors(self, rows)[far]
         if sortp and b.d2h(self) < a.d2h(self):
