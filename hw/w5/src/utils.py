@@ -88,3 +88,14 @@ def rnd(n, ndecs=None):
 
 def any(t):
     return t[random.randint(0, len(t) - 1)]
+
+def cosine(a,b,c):
+    den = 1 if c == 0 else 2*c
+    x1 = (a**2 + c**2 - b**2) / den
+    return x1
+
+def many(t,n):
+    u=[]
+    for _ in range(1,n+1):
+        u.append(any(t))
+    return u

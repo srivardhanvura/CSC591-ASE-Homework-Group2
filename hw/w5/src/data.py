@@ -3,6 +3,7 @@ from rows import ROW
 from utils import *
 import random
 import math
+from operator import itemgetter
 
 class DATA:
     def __init__(self, src, fun=None): 
@@ -109,3 +110,49 @@ class DATA:
         if sortp and b.d2h(self) < a.d2h(self):
             a,b=b,a
         return a, b, a.dist(b,self)
+    
+    def dist(self, row1, row2, cols = None):
+        n,d = 0,0
+        for col in cols or self.cols.x:
+            n = n + 1
+            d = d + col.dist(row1.cells[col.at], row2.cells[col.at])**the['p']
+        return (d/n)**(1/the['p'])
+
+    def clone(self, init = {}):
+        data = DATA([self.cols.names])
+        _ = list(map(data.add, init))
+        return data
+    
+    def half(self, rows = None, cols = None, above = None):
+        def gap(row1,row2): 
+            return self.dist(row1,row2,cols)
+        def project(row):
+            return {'row' : row, 'dist' : cosine(gap(row,A), gap(row,B), c)}
+        rows = rows or self.rows
+        some = many(rows,the['Half'])
+        A    = above if above and the['Reuse'] else any(some)
+        def function(r):
+            return {'row' : r, 'dist' : gap(r, A)}
+        tmp = sorted(list(map(function, some)), key=itemgetter('dist'))
+        far = tmp[int(the['Far'] * len(rows))//1]
+        B    = far['row']
+        c    = far['dist']
+        left, right = [], []
+        for n,tmp in enumerate(sorted(list(map(project, rows)), key=itemgetter('dist'))):
+            if n < len(rows)//2:
+                left.append(tmp['row'])
+            else:
+                right.append(tmp['row'])
+        evals = 1 if the['Reuse'] and above else 2
+        return left, right, A, B, c, evals
+    
+    def cluster(self, rows = None , min = None, cols = None, above = None):
+        rows = rows or self.rows
+        min  = min or len(rows)**the['min']
+        cols = cols or self.cols.x
+        node = { 'data' : self.clone(rows) }
+        if len(rows) >= 2*min:
+            left, right, node['A'], node['B'], node['mid'], _ = self.half(rows,cols,above)
+            node['left']  = self.cluster(left,  min, cols, node['A'])
+            node['right'] = self.cluster(right, min, cols, node['B'])
+        return node

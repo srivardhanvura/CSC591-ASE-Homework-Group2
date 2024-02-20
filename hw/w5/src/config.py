@@ -10,6 +10,7 @@ help = '''USAGE: python main.py [OPTIONS]
   -D --D      second cut                      = 4
   -f --file   csv data file name              = ../data/diabetes.csv
   -F --Far    how far to search for faraway?  = .95
+  -m  --min     size of smallest cluster     = .5
   -h --help   show help                       = false
   -H --Half   #items to use in clustering     = 256
   -p --p      weights for distance            = 2

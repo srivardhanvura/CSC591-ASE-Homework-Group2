@@ -60,6 +60,40 @@ def print_class_percentages(data):
         percentage = (count / total_rows) * 100
         print(f"{class_label.ljust(25)} \t {percentage:.2f}%")
 
+def doubletap(t, best1, best2, evals2, evals1, d, rest):
+    # Read data from CSV file and create a DATA object
+    d = DATA('hw/w5/data/auto93.csv')
+    
+    # Perform branch operation to form clusters
+    best1, rest, evals1 = d.branch(32)
+    best2, _, evals2 = best1.branch(4)
+    
+    # Print centroid of the best found cluster and the rest
+    print(best2.mid().cells)
+    print(rest.mid().cells)
+    
+    # Print the total number of evaluations
+    print(evals1 + evals2)
+
+# Function to calculate centroid of each leaf
+def calculate_centroid(node):
+    if 'left' not in node and 'right' not in node:
+        centroid = {}
+        for col, value in node['data'].mid().items():
+            centroid[col] = sum(value) / len(value)
+        return centroid
+    else:
+        left_centroid = calculate_centroid(node['left'])
+        right_centroid = calculate_centroid(node['right'])
+        return {'left': left_centroid, 'right': right_centroid}
+
+# Function to print centroid of each leaf
+def print_leaf_centroids(node):
+    if 'left' not in node and 'right' not in node:
+        print(node)
+    else:
+        print_leaf_centroids(node['left'])
+        print_leaf_centroids(node['right'])
 
 if __name__ == '__main__':
     main()
@@ -80,4 +114,13 @@ if __name__ == '__main__':
         attempts += 1
     print(f'far1: {o(a.cells)},\nfar2: {o(b.cells)}')
     print(f'distance = {distance}')
+
+    print("\n\n")
+    # Cluster the data
+    cluster_result = data.cluster(data.rows)
+
+    # Print centroid of each leaf
+    leaf_centroids = calculate_centroid(cluster_result)
+    print_leaf_centroids(leaf_centroids)
+
     
