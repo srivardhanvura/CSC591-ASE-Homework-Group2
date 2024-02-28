@@ -97,30 +97,49 @@ def print_leaf_centroids(node):
 
 if __name__ == '__main__':
     main()
-    print("--------PART 1--------")
-    data = DATA('hw/w5/data/auto93.csv')
-    r1   = data.rows[0]
-    rows = r1.neighbors(data)
-    for i, row in enumerate(rows):
-        if i%30 ==0:
-            print(i+1, o(row.cells), rnd(row.dist(r1, data)))
+    # print("--------PART 1--------")
+    # data = DATA('hw/w5/data/auto93.csv')
+    # r1   = data.rows[0]
+    # rows = r1.neighbors(data)
+    # for i, row in enumerate(rows):
+    #     if i%30 ==0:
+    #         print(i+1, o(row.cells), rnd(row.dist(r1, data)))
     
-    print("\n\n")
-    print("--------PART 2--------")
-    attempts = 1
-    a, b, distance = data.farapart(data)
-    while distance > 0.95 and attempts < 100:
-        a, b, distance = data.farapart(data)
-        attempts += 1
-    print(f'far1: {o(a.cells)},\nfar2: {o(b.cells)}')
-    print(f'distance = {distance}')
+    # print("\n\n")
+    # print("--------PART 2--------")
+    # attempts = 1
+    # a, b, distance = data.farapart(data)
+    # while distance > 0.95 and attempts < 100:
+    #     a, b, distance = data.farapart(data)
+    #     attempts += 1
+    # print(f'far1: {o(a.cells)},\nfar2: {o(b.cells)}')
+    # print(f'distance = {distance}')
 
-    print("\n\n")
-    # Cluster the data
-    cluster_result = data.cluster(data.rows)
+    # print("\n\n")
+    # # Cluster the data
+    # cluster_result = data.cluster(data.rows)
 
-    # Print centroid of each leaf
-    leaf_centroids = calculate_centroid(cluster_result)
-    print_leaf_centroids(leaf_centroids)
+    # # Print centroid of each leaf
+    # leaf_centroids = calculate_centroid(cluster_result)
+    # print_leaf_centroids(leaf_centroids)
+    
+    data = DATA('hw/w5/data/auto93.csv')
+    print("--------TREE--------")
+    node, evals = data.tree(True)
+    node.show()
+    print("evals: ", evals)
+    
+    
+    print("\n\n\n--------BRANCH--------")
+    best, rest, evals = data.branch()
+    print("centroid of output cluster:\n", o(best.mid().cells))
+    print("evals: ",evals)
+    
+    
+    print("\n\n\n--------DOUBLE TAP--------")
+    best1, rest, evals1 = data.branch(32)
+    best2, _, evals2 = best1.branch(4)
+    print("centroid of best of 4 cluster:\n", o(best2.mid().cells))
+    print("evals: ", evals1 + evals2)
 
     
