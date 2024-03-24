@@ -99,3 +99,10 @@ def many(t,n):
     for _ in range(1,n+1):
         u.append(any(t))
     return u
+
+def shuffle(t):
+    u = list(t)
+    for i in range(len(u) -1, 1, -1):
+        j=random.randint(0, i)
+        u[i], u[j] = u[j], u[i]
+    return u
