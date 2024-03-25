@@ -1,7 +1,10 @@
 from utils import *
 from config import *
 from data import DATA
-import os
+from statistics import stdev
+import datetime
+from bins import bins
+from stats import SAMPLE, eg0
 
 def main():
     saved_options = {}
@@ -11,7 +14,7 @@ def main():
         the[key] = value
         saved_options[key] = value
 
-    if the['help']:
+    if the.get('help'):
         print(help)
     else:
         for action, _ in egs.items():
@@ -95,51 +98,89 @@ def print_leaf_centroids(node):
         print_leaf_centroids(node['left'])
         print_leaf_centroids(node['right'])
 
+def getStats():
+    print("date : ", datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S"))
+    print("file : ", the["file"])
+    print("repeats : 20")
+    print("seed : ", the["seed"])
+    data = DATA("hw/w6/" + the["file"])
+    print("rows : ", len(data.rows))
+    print("cols : ", len(data.cols.names))
+    print("names \t\t\t\t", '[' + ', '.join(["'" + item + "'" for item in data.cols.names]) + ']' + "\t\td2h-")
+    dataMid = data.mid()
+    dataDiv = data.div()
+    print("mid \t\t\t\t", '[' + ', '.join(["'" + str(rnd(item, 2)) + "'" for item in dataMid.cells.values()]) + ']' + "\t\t" + str(rnd(dataMid.d2h(data), 2)))
+    print("div \t\t\t\t", '[' + ', '.join(["'" + str(rnd(item, 2)) + "'" for item in dataDiv.cells.values()]) + ']' + "\t\t" + str(rnd(dataDiv.d2h(data), 2)))
+    print("#")
+    
+    #running smo9 20 times
+    for _ in range(20):
+        _, best = data.gate(4, 9, 0.5)
+        print("smo9 \t\t\t\t", '[' + ', '.join(["'" + str(item) + "'" for item in best[-1].cells]) + ']' + "\t\t\t\t" + str(rnd(best[-1].d2h(data), 2)))
+    
+    print("#")
+    
+    #running any50
+    for _ in range(20):
+        rand50 = random.sample(data.rows, 50)
+        rows = sorted(rand50, key=lambda x: x.d2h(data))
+        print("any50 \t\t\t\t", '[' + ', '.join(["'" + str(item) + "'" for item in rows[0].cells]) + ']' + "\t\t\t\t" + str(rnd(rows[0].d2h(data), 2)))
+        
+    print("#")
+    
+    #all data
+    bestRow = sorted(data.rows, key=lambda x: x.d2h(data))[0]
+    print("100% \t\t\t\t", '[' + ', '.join(["'" + str(item) + "'" for item in bestRow.cells]) + ']' + "\t\t\t\t" + str(rnd(bestRow.d2h(data), 2)))
+
+
+def bonr(n):
+    bestList = []
+    for i in range(20):
+        data = DATA("hw/w6/" + the["file"])
+        _, best = data.gate(4, n-4, 0.5)
+        bestList.append(best[-1].d2h(data))
+    return bestList
+    
+def rand(n):
+    randList = []
+    for i in range(20):
+        data = DATA("hw/w6/" + the["file"])
+        randRows = random.sample(data.rows, n)
+        rows = sorted(randRows, key=lambda x: x.d2h(data))
+        randList.append(rows[0].d2h(data))
+    return randList
+
+def best_tiny():
+    data = DATA("hw/w6/" + the["file"])
+    sortedRows =  sorted(data.rows, key=lambda x: x.d2h(data))
+    baseLines = [row.d2h(data) for row in data.rows]
+    return sortedRows[0].d2h(data), stdev(baseLines) * 0.35, baseLines
+
+def experimentTreatments():
+    print("date : ", datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S"))
+    print("file : ", the["file"])
+    print("repeats : 20")
+    print("seed : ", the["seed"])
+    data = DATA("hw/w6/" + the["file"])
+    print("rows : ", len(data.rows))
+    print("cols : ", len(data.cols.names[0]))
+    print("#base #bonr9 #rand9 #bonr15 #rand15 #bonr20 #rand20 #rand358 ")
+    best, tiny, baseLines = best_tiny()
+    print("best : ", rnd(best, 2))
+    print("tiny : ", rnd(tiny, 2))
+    eg0([
+        SAMPLE(bonr(9), "bonr9"),
+        SAMPLE(rand(9), "rand9"),
+        SAMPLE(bonr(15), "bonr15"),
+        SAMPLE(rand(15), "rand15"), 
+        SAMPLE(bonr(20), "bonr20"),
+        SAMPLE(rand(20), "rand20"), 
+        SAMPLE(rand(358), "rand358"), 
+        SAMPLE(baseLines, "base")
+    ])
+
+
 if __name__ == '__main__':
     main()
-    # print("--------PART 1--------")
-    # data = DATA('hw/w5/data/auto93.csv')
-    # r1   = data.rows[0]
-    # rows = r1.neighbors(data)
-    # for i, row in enumerate(rows):
-    #     if i%30 ==0:
-    #         print(i+1, o(row.cells), rnd(row.dist(r1, data)))
-    
-    # print("\n\n")
-    # print("--------PART 2--------")
-    # attempts = 1
-    # a, b, distance = data.farapart(data)
-    # while distance > 0.95 and attempts < 100:
-    #     a, b, distance = data.farapart(data)
-    #     attempts += 1
-    # print(f'far1: {o(a.cells)},\nfar2: {o(b.cells)}')
-    # print(f'distance = {distance}')
-
-    # print("\n\n")
-    # # Cluster the data
-    # cluster_result = data.cluster(data.rows)
-
-    # # Print centroid of each leaf
-    # leaf_centroids = calculate_centroid(cluster_result)
-    # print_leaf_centroids(leaf_centroids)
-    
-    data = DATA('hw/w5/data/auto93.csv')
-    print("--------TREE--------")
-    node, evals = data.tree(True)
-    node.show()
-    print("evals: ", evals)
-    
-    
-    print("\n\n\n--------BRANCH--------")
-    best, rest, evals = data.branch()
-    print("centroid of output cluster:\n", o(best.mid().cells))
-    print("evals: ",evals)
-    
-    
-    print("\n\n\n--------DOUBLE TAP--------")
-    best1, rest, evals1 = data.branch(32)
-    best2, _, evals2 = best1.branch(4)
-    print("centroid of best of 4 cluster:\n", o(best2.mid().cells))
-    print("evals: ", evals1 + evals2)
-
+    bins()
     

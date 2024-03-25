@@ -13,15 +13,15 @@ class DATA:
         if isinstance(src, str):
             csv(src, self.add)
         else:
-            # for x in src or []:
-            self.add(src, fun)
+            for x in src or []:
+                self.add(x, fun)
                 
 
     def add(self, t, fun=None):
         row = t if isinstance(t, ROW) and t.cells else ROW(t)
         if self.cols:
             if fun:
-                fun(row)
+                fun(self, row)
             self.rows.append(self.cols.add(row))
         else:
             self.cols=COLS(row)
@@ -49,31 +49,60 @@ class DATA:
         return random.sample(items, len(items))
     
     def gate(self, budget0, budget, some):
-        heaven = 1.0
-        rows = self.shuffle(self.rows)
-        print("1. top6", [[row.cells[x] for x in self.cols.y.keys()] for row in rows[:6]])
-        print("2. top50", [[row.cells[x] for x in self.cols.y.keys()] for row in rows[:50]])
+        stats, bests = [], []
+        rows = shuffle(self.rows)
+        row1, row2, row3, row4, row5, row6 = [], [], [], [], [], []
+        
+        row1 += [[row.cells[i] for i in list(self.cols.y.keys())] for row in rows[:6]]
 
-        rows.sort(key=lambda row: self.distance2heaven(row, heaven))
-        print("3. most", [rows[0].cells[x] for x in list(self.cols.y.keys())])
+        row2 += [[row.cells[i] for i in list(self.cols.y.keys())] for row in rows[:50]]
 
-        rows = self.shuffle(self.rows)
+        rows.sort(key=lambda x: x.d2h(self))
+        row3 += [[row.cells[i] for i in list(self.cols.y.keys())] for row in [rows[0]]]
+
+        rows = shuffle(rows)
         lite = rows[:budget0]
         dark = rows[budget0:]
 
-        for _ in range(budget):
-            lite.sort(key=lambda row: self.distance2heaven(row, heaven))
-            n = int(len(lite)**some)
-            best, rest = lite[:n], lite[n:]
-            todo, selected = self.split(best, rest, lite, dark)
-            
-            dark_sample = random.sample(dark, budget0+1)
-            print("4: rand", [dark_sample[len(dark_sample)//2].cells[x] for x in self.cols.y.keys()])
-            if len(selected.rows) > 0:
-                print("5: mid", [selected.rows[len(selected.rows)//2].cells[x] for x in self.cols.y.keys()])
-            print("6: top", [best[0].cells[x] for x in self.cols.y.keys()])
-            
+        for i in range(budget):
+            best, rest = self.bestRest(lite, len(lite) ** some)
+            todo, selected = self.split(best, rest, lite, dark) 
+
+            sample = [self.cols.names[0][-len(self.cols.y.keys()):]] 
+            random_sample = random.sample(dark, k=budget0+i)
+            for d in random_sample:
+                sample.append(d.cells[-len(self.cols.y.keys()):])
+            rand_centroid = DATA(sample).mid() 
+            row4.append(rand_centroid.cells)
+
+            sample = [self.cols.names[0][-len(self.cols.y.keys()):]] 
+            for d in selected.rows:
+                sample.append(d.cells[-len(self.cols.y.keys()):])
+            mid_centroid = DATA(sample).mid() 
+            row5.append(mid_centroid.cells)
+
+            # top_row_values = [[best.cells[i] for i in list(self.cols.y.keys())] for best in bests[:1]]
+
+            # dark.pop(todo)
+
+            stats.append(selected.mid())
+            bests.append(best.rows[0])
             lite.append(dark.pop(todo))
+        
+            row6.append(bests[0].cells[-len(self.cols.y.keys()):])
+
+        # return stats, bests, row1, row2, row3, row4, row5, row6
+        return stats, bests
+    
+    def bestRest(self, rows, want):
+        rows = sorted(rows, key=lambda x: x.d2h(self))
+        best, rest = [self.cols.names[:]], [self.cols.names[:]]
+        for i, row in enumerate(rows):
+            if i < want:
+                best.append(row)
+            else:
+                rest.append(row)
+        return DATA(best), DATA(rest)
 
 
     def distance2heaven(self, row, heaven):
@@ -81,15 +110,15 @@ class DATA:
         return math.sqrt(sum((heaven - norm(col, row.cells[y]))**2 for y, col in self.cols.y.items()) / len(self.cols.y))
 
     def split(self, best, rest, lite, dark):
-        selected = DATA(self.cols.names)
+        selected = DATA([self.cols.names])
         max_score = float('-inf')
         
-        best_data = DATA(self.cols.names)
-        for row in best:
+        best_data = DATA([self.cols.names])
+        for row in best.rows:
             best_data.add(row)
         
-        rest_data = DATA(self.cols.names)
-        for row in rest:
+        rest_data = DATA([self.cols.names])
+        for row in rest.rows:
             rest_data.add(row)
         
         for i, row in enumerate(dark):
@@ -124,7 +153,7 @@ class DATA:
         return (d/n)**(1/the['p'])
 
     def clone(self, rows=None):
-        new_data = DATA(self.cols.names)
+        new_data = DATA([self.cols.names])
         if rows is not None:
             for row in rows:
                 new_data.add(row)

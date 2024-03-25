@@ -99,3 +99,33 @@ def many(t,n):
     for _ in range(1,n+1):
         u.append(any(t))
     return u
+
+def shuffle(t):
+    u = list(t)
+    for i in range(len(u) -1, 1, -1):
+        j=random.randint(0, i)
+        u[i], u[j] = u[j], u[i]
+    return u
+
+def entropy(t):
+    n = sum(t.values())
+        # e = sum(-v / n * math.log(v / n + 1e-30, 2) for v in t.values())
+    e = 0
+    for v in t.values():
+        e -= (v / n) * math.log2(v / n)
+    return e, n
+
+    #Scoring 
+def score(t, goal, LIKE, HATE):
+
+    like, hate, tiny = 0, 0, 1e-30
+
+    for klass, n in t.items():
+        if klass == goal:
+            like += n
+        else:
+            hate += n
+
+    like, hate = like / (LIKE + tiny), hate / (HATE + tiny)
+
+    return 0 if hate > like else (like ** the.get("Support")) / (like + hate)

@@ -1,0 +1,35 @@
+OUTPUT1:
+{"at": 0, "scored": 0, "txt": "Clndrs", "x": {"lo": 3, "hi": 3}, "y": {"LIKE": 2}}
+{"at": 0, "scored": 0, "txt": "Clndrs", "x": {"lo": 4, "hi": 4}, "y": {"LIKE": 22, "HATE": 45}}
+{"at": 0, "scored": 0, "txt": "Clndrs", "x": {"lo": 6, "hi": 6}, "y": {"HATE": 13}}
+{"at": 0, "scored": 0, "txt": "Clndrs", "x": {"lo": 8, "hi": 8}, "y": {"HATE": 14}}
+
+{"at": 1, "scored": 0, "txt": "Volume", "x": {"lo": 70, "hi": 90}, "y": {"LIKE": 11, "HATE": 5}}
+{"at": 1, "scored": 0, "txt": "Volume", "x": {"lo": 91, "hi": 116}, "y": {"LIKE": 9, "HATE": 20}}
+{"at": 1, "scored": 0, "txt": "Volume", "x": {"lo": 119, "hi": 140}, "y": {"LIKE": 4, "HATE": 17}}
+{"at": 1, "scored": 0, "txt": "Volume", "x": {"lo": 146, "hi": 156}, "y": {"HATE": 5}}
+{"at": 1, "scored": 0, "txt": "Volume", "x": {"lo": 168, "hi": 181}, "y": {"HATE": 3}}
+{"at": 1, "scored": 0, "txt": "Volume", "x": {"lo": 200, "hi": 200}, "y": {"HATE": 1}}
+{"at": 1, "scored": 0, "txt": "Volume", "x": {"lo": 231, "hi": 231}, "y": {"HATE": 3}}
+{"at": 1, "scored": 0, "txt": "Volume", "x": {"lo": 250, "hi": 267}, "y": {"HATE": 6}}
+{"at": 1, "scored": 0, "txt": "Volume", "x": {"lo": 304, "hi": 318}, "y": {"HATE": 3}}
+{"at": 1, "scored": 0, "txt": "Volume", "x": {"lo": 350, "hi": 360}, "y": {"HATE": 6}}
+{"at": 1, "scored": 0, "txt": "Volume", "x": {"lo": 400, "hi": 400}, "y": {"HATE": 2}}
+{"at": 1, "scored": 0, "txt": "Volume", "x": {"lo": 440, "hi": 440}, "y": {"HATE": 1}}
+
+{"at": 3, "scored": 0, "txt": "Model", "x": {"lo": 70, "hi": 70}, "y": {"HATE": 2}}
+{"at": 3, "scored": 0, "txt": "Model", "x": {"lo": 71, "hi": 71}, "y": {"HATE": 7}}
+{"at": 3, "scored": 0, "txt": "Model", "x": {"lo": 72, "hi": 72}, "y": {"HATE": 4}}
+{"at": 3, "scored": 0, "txt": "Model", "x": {"lo": 73, "hi": 73}, "y": {"HATE": 8}}
+{"at": 3, "scored": 0, "txt": "Model", "x": {"lo": 74, "hi": 74}, "y": {"HATE": 9}}
+{"at": 3, "scored": 0, "txt": "Model", "x": {"lo": 75, "hi": 75}, "y": {"HATE": 6}}
+{"at": 3, "scored": 0, "txt": "Model", "x": {"lo": 76, "hi": 76}, "y": {"HATE": 6}}
+{"at": 3, "scored": 0, "txt": "Model", "x": {"lo": 77, "hi": 77}, "y": {"LIKE": 5, "HATE": 3}}
+{"at": 3, "scored": 0, "txt": "Model", "x": {"lo": 78, "hi": 78}, "y": {"LIKE": 8, "HATE": 1}}
+{"at": 3, "scored": 0, "txt": "Model", "x": {"lo": 79, "hi": 79}, "y": {"LIKE": 2, "HATE": 8}}
+{"at": 3, "scored": 0, "txt": "Model", "x": {"lo": 80, "hi": 80}, "y": {"LIKE": 9, "HATE": 6}}
+{"at": 3, "scored": 0, "txt": "Model", "x": {"lo": 81, "hi": 81}, "y": {"HATE": 5}}
+{"at": 3, "scored": 0, "txt": "Model", "x": {"lo": 82, "hi": 82}, "y": {"HATE": 7}}
+
+{"at": 4, "scored": 0, "txt": "origin", "x": {"lo": -Infinity, "hi": 2}, "y": {"HATE": 62}}
+{"at": 4, "scored": 0, "txt": "origin", "x": {"lo": 2, "hi": Infinity}, "y": {"LIKE": 24, "HATE": 10}}
