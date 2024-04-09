@@ -1,8 +1,8 @@
 from utils import *
 from config import *
-from src.data import DATA
-from src.rules import RULES
-from src import ranges
+from data import DATA
+from rules import *
+import ranges
 
 def rules():
     for _ in range(1):

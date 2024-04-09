@@ -129,3 +129,10 @@ def score(t, goal, LIKE, HATE):
     like, hate = like / (LIKE + tiny), hate / (HATE + tiny)
 
     return 0 if hate > like else (like ** the.get("Support")) / (like + hate)
+
+def powerset(s):
+        t = [[]]
+        for i in range(len(s)):
+            for j in range(len(t)):
+                t.append([s[i]] + t[j])
+        return t

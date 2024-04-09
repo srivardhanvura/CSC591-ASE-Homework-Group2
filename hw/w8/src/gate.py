@@ -5,6 +5,7 @@ from statistics import stdev
 import datetime
 from bins import bins
 from stats import SAMPLE, eg0
+from eg_rules import rules
 
 def main():
     saved_options = {}
@@ -182,5 +183,6 @@ def experimentTreatments():
 
 if __name__ == '__main__':
     main()
-    bins()
+    # bins()
+    rules()
     
